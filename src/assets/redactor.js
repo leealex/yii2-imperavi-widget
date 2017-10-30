@@ -7750,18 +7750,20 @@
 				},
 				setMarker: function(range, node, type)
 				{
-					range = range.cloneRange();
+					var nclone = window.getSelection().getRangeAt(0).cloneRange();
+                 			range = range.cloneRange();
+                    			try {
+						var selection = window.getSelection();
+                        			range.collapse(type);
+                        			range.insertNode(node);
 
-					try {
-						range.collapse(type);
-						range.insertNode(node);
-
-					}
-					catch (e)
-					{
-						this.focus.setStart();
-					}
-
+                        			selection.removeAllRanges();
+                        			selection.addRange(nclone);
+                    				}
+                    			catch (e)
+                   			{
+                    			  	this.focus.setStart();
+                   			}
 				},
 				restore: function()
 				{
